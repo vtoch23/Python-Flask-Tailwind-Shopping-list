@@ -1,0 +1,44 @@
+<h2> My Shopping List</h2>
+
+<div>
+    <form action="/add_item" method="post">
+        <input name="name" placeholder="enter a name">
+        <input name="price" placeholder="enter a price">
+        <input name="discount" placeholder="enter current discount">
+        <button type="submit">Add an item</button>
+    </form>
+</div>
+<div>
+    <table>
+        {% for record in records %}
+        <tr>
+            <th>
+                <td>Name</td>
+                <td>Price</td>
+                <td> Discount</td>
+                <td>Actual price</td>
+                <td> Remove item</td>
+            </th>
+            </tr>
+            <tr>
+            <td>{{record.name}}</td>
+            <td>{{record.price}}</td>
+            <td>{{record.discount}}</td>
+            <td style="background-color: aquamarine;"> You paid {{'%0.2f' | format(record.price - (record.price * record.discount) | float)}}</td>
+            <td><form action="/delete" method="post"><input type="hidden" name="id" value="{{record.id}}"><button type="submit">Delete</button></form></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div>
+
+    <h3> Total Cost</h3>
+    {{'%0.2f'| format(total)}}
+
+    <h3> Total Paid</h3>
+    {{'%0.2f'| format(total_p)}}
+
+    <h3>Total Discount</h3>
+    {{total_disc}}%
+</div>
