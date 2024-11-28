@@ -1,44 +1,99 @@
-<h2> My Shopping List</h2>
+<!DOCTYPE html>
+<html lang="en">
 
-<div>
-    <form action="/add_item" method="post">
-        <input name="name" placeholder="enter a name">
-        <input name="price" placeholder="enter a price">
-        <input name="discount" placeholder="enter current discount">
-        <button type="submit">Add an item</button>
-    </form>
-</div>
-<div>
-    <table>
-        {% for record in records %}
-        <tr>
-            <th>
-                <td>Name</td>
-                <td>Price</td>
-                <td> Discount</td>
-                <td>Actual price</td>
-                <td> Remove item</td>
-            </th>
-            </tr>
-            <tr>
-            <td>{{record.name}}</td>
-            <td>{{record.price}}</td>
-            <td>{{record.discount}}</td>
-            <td style="background-color: aquamarine;"> You paid {{'%0.2f' | format(record.price - (record.price * record.discount) | float)}}</td>
-            <td><form action="/delete" method="post"><input type="hidden" name="id" value="{{record.id}}"><button type="submit">Delete</button></form></td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <title>My Shopping List</title>
+    </head>
+    <h2 class="text-white font-bold text-3xl mx-auto max-w-fit mt-5"> My Shopping List</h2>
 
-<div>
+    <body class="bg-slate-400">
+        <div class="from-slate-100 container lg:flex max-w-fit mx-auto my-9 sm:flex-none" >
+            <form action="/add_item" method="post">
+                <input class="input shadow-md border-teal-200 m-auto p-1" name="name" placeholder="enter a name">
+                <input class="input shadow-md border-teal-200 m-auto p-1" name="price" placeholder="enter a price">
+                <input class="input shadow-md border-teal-200 m-auto p-1" name="discount" placeholder="enter current discount">
+                <button class="bg-white font-black w-32 hover:bg-pink-400 hover:text-white hover:border-opacity-100 hover: border-white p-1" type="submit">Add an item</button>
+            </form>
+        </div>
+        <div class="flex-grow border-t border-pink-400"></div>
+        
+        <div class="max-w-fit mx-auto">
+            {% if records %}
+            <div class="grid grid-flow-col gap-x-10 justify-items-start">
+                <div class="grid-flow-col">
+                    <div class="grid col-auto text-white font-bold my-5">Name</div>
+                    {% for record in records %}
+                    <div class="grid col-auto text-left my-5 font-bold  p-1">{{record.name}}</div>
+                    {% endfor %}
+                </div>
 
-    <h3> Total Cost</h3>
-    {{'%0.2f'| format(total)}}
+                <div class="grid-flow-col">
+                    <div class="grid col-auto text-white font-bold my-5">Price</div>
+                    {% for record in records %}
+                    <div class="grid col-auto text-left my-5  p-1">£{{'%0.2f' | format(record.price)}}</div>
+                    {% endfor %}
+                </div>
 
-    <h3> Total Paid</h3>
-    {{'%0.2f'| format(total_p)}}
+                <div class="grid-flow-col">
+                    <div class="grid col-auto text-white font-bold my-5"> Discount</div>
+                    {% for record in records %}
+                    <div class="grid col-auto my-5  p-1">{{record.discount*100 | int }}%</div>
+                    {% endfor %}
+                </div>
+                <div class="grid-flow-col">
+                    <div class="grid col-auto text-white font-bold my-5">Actual price</div>
+                    {% for record in records %}
+                    <div  class="grid col-auto  my-5 bg-pink-300 p-1"> You paid £{{'%0.2f' | format(record.price - (record.price *
+                        record.discount) | float)}}</div>
+                    {% endfor %}
+                </div>
+                <div class="grid-flow-col">
+                    <div class="grid col-auto text-white font-bold my-5"> Remove item</div>
+                    {% for record in records %}
+                    <div class="grid col-auto bg-white text-black hover:bg-pink-400 hover:text-white justify-center my-5  p-1">
+                        <form action="/delete" method="post"><input type="hidden" name="id" value="{{record.id}}"><button
+                                type="submit">Delete</button></form>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="flex-grow border-t border-pink-400"></div>
+        {% if total %}
+        <div class="mx-auto max-w-screen-md bg-pink-100 mt-6">
+            <div class="grid grid-flow-col gap-x-20 justify-items-start px-10 py-5">
+                <div class="col-auto">
+                    <div> 
+                        Total Cost
+                    </div>
+                    <div class="font-bold">
+                        £{{'%0.2f'| format(total)}}</div>
+                    </div>
+                <div>
+                    <div> 
+                        Total Paid 
+                    </div>
+                    <div class="font-bold">
+                        £{{'%0.2f'| format(total_p)}}
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        Total Discount
+                    </div>
+                    <div class="font-bold">
+                    {{total_disc}}%
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </body>
 
-    <h3>Total Discount</h3>
-    {{total_disc}}%
-</div>
+</html>
