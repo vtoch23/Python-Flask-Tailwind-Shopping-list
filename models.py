@@ -5,7 +5,7 @@ conn = mysql.connector.connect(
     host="localhost",
     user="root",
     database="new_db",
-    password="123456789"
+    password=""
 )
 
 
