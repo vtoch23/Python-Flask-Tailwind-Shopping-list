@@ -3,8 +3,12 @@ It calculates the total price, total paid and total discount received. The items
 
 The app uses Python and Flask, as well as Tailwind CSS for styling.
 
-To run, install requirements and execute:
+To run, create a local database with the name "new_db" and run sql the provided sql queries . 
+
+Install requirements and execute:
 flask --app main --debug run
+or
+python main.py
 
 
 ![alt text](image-3.png)
