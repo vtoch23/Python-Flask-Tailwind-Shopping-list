@@ -8,65 +8,70 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <title>My Shopping List</title>
     </head>
+        <img src="../static/Shopping_List.png" width="50" class="mx-auto mt-5" alt="Shopping List">
     <h2 class="text-white font-bold text-3xl mx-auto max-w-fit mt-5"> My Shopping List</h2>
 
-    <body class="bg-slate-400">
-        <div class="from-slate-100 container lg:flex max-w-fit mx-auto my-9 sm:flex-none" >
-            <form action="/add_item" method="post">
-                <input class="input shadow-md border-teal-200 m-auto p-1" name="name" placeholder="enter a name">
-                <input class="input shadow-md border-teal-200 m-auto p-1" name="price" placeholder="enter a price">
-                <input class="input shadow-md border-teal-200 m-auto p-1" name="discount" placeholder="enter current discount">
-                <button class="bg-white font-black w-32 hover:bg-pink-400 hover:text-white hover:border-opacity-100 hover: border-white p-1" type="submit">Add an item</button>
-            </form>
-        </div>
+    <body class="bg-slate-400 mx-auto">
+        <form action="/add_item" method="post" class="max-w-fit lg:flex sm:flex-none content-between justify-items-center mx-auto my-5">
+            <input class="input shadow-md border-teal-200 m-1 p-1" name="name" placeholder="enter a name">
+            <input class="input shadow-md border-teal-200 m-1 p-1" name="price" placeholder="enter a price">
+            <input class="input shadow-md border-teal-200 m-1 p-1" name="discount" placeholder="enter current discount">
+            <button class="bg-white font-black w-32 hover:bg-pink-400 hover:text-white hover:border-opacity-100 hover: border-white p-1 m-1" type="submit">Add an item</button>
+        </form>
         <div class="flex-grow border-t border-pink-400"></div>
         
-        <div class="max-w-fit mx-auto">
+        <div class="max-w-screen-md mx-auto rounded-sm shadow-md px-8 pb-8 m-5 bg-slate-500 pt-4">
+            <img class="mx-auto my-2" src="../static/Shopping_Bag.png" width="50">
+            <h1 class="font-bold text-white text-xl max-w-fit mx-auto">Items in your bag</h1>
+            <div class="border-t border-dotted my-4"></div>
             {% if records %}
             <div class="grid grid-flow-col gap-x-10 justify-items-start">
                 <div class="grid-flow-col">
-                    <div class="grid col-auto text-white font-bold my-5">Name</div>
+                    <div class="grid col-auto text-pink-400 font-bold my-5 min-h-10">Name</div>
                     {% for record in records %}
-                    <div class="grid col-auto text-left my-5 font-bold  p-1">{{record.name}}</div>
+                    <div class="grid col-auto text-left text-white my-5 font-bold pt-1 pb-1 min-h-8">{{record.name}}</div>
                     {% endfor %}
                 </div>
 
                 <div class="grid-flow-col">
-                    <div class="grid col-auto text-white font-bold my-5">Price</div>
+                    <div class="grid col-auto text-pink-400 font-bold my-5 min-h-10">Price</div>
                     {% for record in records %}
-                    <div class="grid col-auto text-left my-5  p-1">£{{'%0.2f' | format(record.price)}}</div>
+                    <div class="grid col-auto text-left text-white  my-5 pt-1 pb-1 min-h-8">£{{'%0.2f' | format(record.price)}}</div>
                     {% endfor %}
                 </div>
 
                 <div class="grid-flow-col">
-                    <div class="grid col-auto text-white font-bold my-5"> Discount</div>
+                    <div class="grid col-auto text-pink-400 font-bold my-5 min-h-10"> Discount</div>
                     {% for record in records %}
-                    <div class="grid col-auto my-5  p-1">{{record.discount*100 | int }}%</div>
+                    <div class="grid col-auto my-5 pt-1 pb-1 text-white min-h-8">{{record.discount*100 | int }}%</div>
                     {% endfor %}
                 </div>
                 <div class="grid-flow-col">
-                    <div class="grid col-auto text-white font-bold my-5">Actual price</div>
+                    <div class="grid col-auto text-pink-400 font-bold my-5 min-h-10">Actual price</div>
                     {% for record in records %}
-                    <div  class="grid col-auto  my-5 bg-pink-300 p-1"> You paid £{{'%0.2f' | format(record.price - (record.price *
+                    <div  class="grid col-auto  my-5 bg-pink-300 p-1 px-2 min-h-8"> You paid £{{'%0.2f' | format(record.price - (record.price *
                         record.discount) | float)}}</div>
                     {% endfor %}
                 </div>
                 <div class="grid-flow-col">
-                    <div class="grid col-auto text-white font-bold my-5"> Remove item</div>
+                    <div class="grid col-auto text-pink-400 font-bold my-5 min-h-10"> Remove item</div>
                     {% for record in records %}
-                    <div class="grid col-auto bg-white text-black hover:bg-pink-400 hover:text-white justify-center my-5  p-1">
-                        <form action="/delete" method="post"><input type="hidden" name="id" value="{{record.id}}"><button
-                                type="submit">Delete</button></form>
-                    </div>
+                        <form action="/delete" method="post"><input type="hidden" name="id" value="{{record.id}}">
+                            <button type="submit" class="grid col-auto my-3 py-1 min-h-8 justify-items-center justify-around">
+                                <img src="../static/delete-icon.png" width="30">
+                            </button>
+                        </form>
                     {% endfor %}
                 </div>
             </div>
+            {% else %}
+            <h3 class="text-white max-w-fit mx-auto"> You currently have no items in your shopping list</h3>
             {% endif %}
         </div>
         
-        <div class="flex-grow border-t border-pink-400"></div>
+        <!-- <div class="flex-grow border-t border-pink-400"></div> -->
         {% if total %}
-        <div class="mx-auto max-w-screen-md bg-pink-100 mt-6">
+        <div class="mx-auto max-w-screen-md bg-white">
             <div class="grid grid-flow-col gap-x-20 justify-items-start px-10 py-5">
                 <div class="col-auto">
                     <div> 
