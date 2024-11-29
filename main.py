@@ -25,6 +25,11 @@ def add():
         name = request.form['name']
         price = request.form['price']
         discount = request.form['discount']
+        if discount:
+            try:
+                discount = int(discount)/100
+            except ValueError:
+                discount = float(discount)
 
         if not name:
             errorName = "Enter a valid name"
