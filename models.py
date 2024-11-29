@@ -12,7 +12,6 @@ conn = mysql.connector.connect(
 def get_items():
     curr = conn.cursor(dictionary=True)
     curr.execute("select * from prod")
-
     records = curr.fetchall()
     return records
 
@@ -21,7 +20,6 @@ def add_item(name, price, discount):
     curr = conn.cursor(dictionary=True)
     curr.execute("insert into prod (name, price, discount) values (%s, %s, %s)", (name, price, discount))
     conn.commit()
-
     return get_items()
 
 
@@ -37,10 +35,7 @@ def total_cost():
     curr = conn.cursor(dictionary=True)
     curr.execute("select * from prod")
     records = curr.fetchall()
-    total = 0
-    for record in records:
-        total += record['price']
-
+    total = sum(item['price'] for item in records)
     return total
 
 
@@ -60,15 +55,9 @@ def total_discount():
     curr = conn.cursor(dictionary=True)
     curr.execute("select * from prod")
     records = curr.fetchall()
-    total_discount = 0
-    total_price = 0
-    total_paid = 0
+    total_price = total_cost()
     if records:
-        for record in records:
-            total_price += record['price']
-            total_paid += (record['price'] - (record['price'] * record['discount']))
-        total_discount += (total_price - total_paid)
+        total_discount = sum(item['price'] * item['discount'] for item in records)
         return round((total_discount/total_price)*100)
     else:
         pass
-    
