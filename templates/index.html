@@ -9,15 +9,29 @@
         <title>My Shopping List</title>
     </head>
         <img src="../static/Shopping_List.png" width="50" class="mx-auto mt-5" alt="Shopping List">
-    <h2 class="text-white font-bold text-3xl mx-auto max-w-fit mt-5"> My Shopping List</h2>
+    <h2 class="text-slate-700 font-bold text-3xl mx-auto max-w-fit mt-5 mb-5"> My Shopping List</h2>
 
     <body class="bg-slate-400 mx-auto">
-        <form action="/add_item" method="post" class="max-w-fit lg:flex sm:flex-none content-between justify-items-center mx-auto my-5">
-            <input class="input shadow-md border-teal-200 m-1 p-1" name="name" placeholder="enter a name">
-            <input class="input shadow-md border-teal-200 m-1 p-1" name="price" placeholder="enter a price">
-            <input class="input shadow-md border-teal-200 m-1 p-1" name="discount" placeholder="enter current discount">
-            <button class="bg-white font-black w-32 hover:bg-pink-400 hover:text-white hover:border-opacity-100 hover: border-white p-1 m-1" type="submit">Add an item</button>
-        </form>
+        <h3 class="text-white font-bold text-xl mx-auto max-w-fit mt-3 mb-1"> Add a new item</h3>
+        <div class="grid grid-flow-col gap-x-10 justify-items-start">
+            <form action="/add_item" method="post" class="max-w-fit lg:flex sm:flex-none content-between justify-items-center mx-auto mb-5">
+                <div class="grid-flow-col">
+                    <input class="input shadow-md  m-1 p-1" name="name" placeholder="enter a name">
+                    <div class="text-red-400">{% if errorName %} {{errorName}} {% endif%}</div>
+                </div>
+                <div class="grid-flow-col">
+                    <input class="input shadow-md  m-1 p-1" name="price" placeholder="enter a price">
+                    <div class="text-red-400">{% if errorPrice %} {{errorPrice}} {% endif%}</div>
+                </div>
+                <div class="grid-flow-col">
+                    <input class="input shadow-md  m-1 p-1" name="discount" placeholder="enter current discount">
+                </div>
+                <div class="grid-flow-col">
+                    <button class="bg-white text-black font-semibold w-32 hover:bg-pink-400 hover:text-white hover:border-opacity-100 hover: border-white p-1 m-1" type="submit">Add an item</button>
+                </div>
+            </form>
+        </div>
+
         <div class="flex-grow border-t border-pink-400"></div>
         
         <div class="max-w-screen-md mx-auto rounded-sm shadow-md px-8 pb-8 m-5 bg-slate-500 pt-4">
@@ -47,9 +61,9 @@
                     {% endfor %}
                 </div>
                 <div class="grid-flow-col">
-                    <div class="grid col-auto text-pink-400 font-bold my-5 min-h-10">Actual price</div>
+                    <div class="grid col-auto text-pink-400 font-bold my-5 min-h-10">Discounted price</div>
                     {% for record in records %}
-                    <div  class="grid col-auto  my-5 bg-pink-300 p-1 px-2 min-h-8"> You paid £{{'%0.2f' | format(record.price - (record.price *
+                    <div  class="grid col-auto  my-5 bg-pink-300 p-1 px-2 min-h-8"> Your price £{{'%0.2f' | format(record.price - (record.price *
                         record.discount) | float)}}</div>
                     {% endfor %}
                 </div>
@@ -85,7 +99,7 @@
                         Total Paid 
                     </div>
                     <div class="font-bold">
-                        £{{'%0.2f'| format(total_p)}}
+                        £{{'%0.2f'| format(total_paid)}}
                     </div>
                 </div>
                 <div>

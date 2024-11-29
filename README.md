@@ -11,6 +11,6 @@ or
 python main.py
 
 
-![alt text](image-3.png)
+![alt text](static/image-3.png)
 
-![alt text](image-2.png)
+![alt text](static/image-2.png)
