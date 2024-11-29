@@ -44,12 +44,10 @@ def add():
 
 @app.route('/delete', methods=['POST'])
 def delete():
-    errorPrice = None
-    errorName = None
     id = request.form['id']
     delete_item(id)
 
-    return redirect(url_for('get_all', errorName=errorName, errorPrice=errorPrice))
+    return redirect(url_for('get_all'))
 
 
 if __name__ == '__main__':
