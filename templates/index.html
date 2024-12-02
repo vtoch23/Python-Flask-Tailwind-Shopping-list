@@ -17,14 +17,15 @@
             <form action="/add_item" method="post" class="max-w-fit lg:flex sm:flex-none content-between justify-items-center mx-auto mb-5">
                 <div class="grid-flow-col">
                     <input class="input shadow-md  m-1 p-1" name="name" placeholder="enter a name">
-                    <div class="text-red-400">{% if errorName %} {{errorName}} {% endif%}</div>
+                    <div class="text-pink-200">{% if errorName %} {{errorName}} {% endif%}</div>
                 </div>
                 <div class="grid-flow-col">
                     <input class="input shadow-md  m-1 p-1" name="price" placeholder="enter a price">
-                    <div class="text-red-400">{% if errorPrice %} {{errorPrice}} {% endif%}</div>
+                    <div class="text-pink-200">{% if errorPrice %} {{errorPrice}} {% endif%}</div>
                 </div>
                 <div class="grid-flow-col">
                     <input class="input shadow-md  m-1 p-1" name="discount" placeholder="enter current discount">
+                    <div class="text-pink-200">{% if errorDiscount%} {{errorDiscount}} {% endif%}</div>
                 </div>
                 <div class="grid-flow-col">
                     <button class="bg-white text-black font-semibold w-32 hover:bg-pink-400 hover:text-white hover:border-opacity-100 hover: border-white p-1 m-1" type="submit">Add an item</button>

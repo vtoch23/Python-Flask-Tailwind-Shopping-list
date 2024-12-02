@@ -28,6 +28,7 @@ def test_root(mock_connect, client):
     assert b'10.0%' in response.data 
     assert b'Item2' in response.data
     assert b'30.0%' in response.data 
+    assert b'25' in response.data 
 
 
 @patch('models.conn')
@@ -41,11 +42,10 @@ def test_add(mock_connect, client):
 
     assert response.status_code == 200
     assert mysql.commit.call_count == 1
-    assert cursor.fetchall.return_value == [{'id': 1, 'name': 'Item1', 'price': 10, 'discount': 0.1},]
+    assert cursor.fetchall.assert_called_once
+    assert cursor.fetchall.return_value == [{'id': 1, 'name': 'Item1', 'price': 10, 'discount': 0.1}]
     assert b'Item1' in response.data
     assert b'10%' in response.data
-    cursor.fetchall.assert_called_once
-
 
 
 @patch('models.conn')
@@ -53,12 +53,14 @@ def test_delete(mock_connect, client):
     mysql = mock_connect
     cursor = mysql.cursor(dictionary=True)
     cursor.return_value = cursor
-    cursor.fetchall.return_value = []
+    cursor.fetchall.return_value = [{'id': 1, 'name': 'Item1', 'price': 10, 'discount': 0.1}]
     response = client.post('/delete', data={'id': '1'})
 
     assert response.status_code == 302  
-    cursor.commit.assert_called_once
-    cursor.fetchall.assert_called_once 
+    assert cursor.commit.assert_called_once
+    
+    assert cursor.fetchall.call_count == 1
+    assert cursor.fetchall.return_value == [{'id': 1, 'name': 'Item1', 'price': 10, 'discount': 0.1}]
 
 
 @patch('models.conn')
